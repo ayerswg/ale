@@ -68,6 +68,13 @@ function! ale_linters#java#javac#GetCommand(buffer, import_paths, meta) abort
         if isdirectory(l:jaxb_dir)
             call add(l:sp_dirs, l:jaxb_dir)
         endif
+
+        " Automatically include the generated directory too, if it's there.
+        let l:gen_dir = ale#path#FindNearestDirectory(a:buffer, 'src/generated/java')
+
+        if isdirectory(l:gen_dir)
+            call add(l:sp_dirs, l:gen_dir)
+        endif
     endif
 
     " Automatically include the test directory, but only for test code.
